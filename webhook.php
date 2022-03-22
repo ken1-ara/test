@@ -19,6 +19,7 @@ $header = getallheaders();
 $hmac = hash_hmac('sha1', file_get_contents("php://input"), $SECRET_KEY);
 if ( isset($header['X-Hub-Signature']) && $header['X-Hub-Signature'] === 'sha1='.$hmac ) {
   $payload = json_decode(file_get_contents("php://input"), true);
+  var_dump($payload);
   //gitpullする対象のフォルダへ移動する
   exec('cd /home/users/2/main.jp-brick-plan/web/test ; git pull');
   file_put_contents($LOG_FILE, date("[Y-m-d H:i:s]")." ".$_SERVER['REMOTE_ADDR']." git pulled: ".$payload['after']." ".$payload['commits'][0]['message']."\n", FILE_APPEND|LOCK_EX);
